@@ -29,10 +29,28 @@ public class HomeController {
         model.addAttribute("flight", new Flight());
         return "flightform";
     }
-    @PostMapping("/processsearch")
+    /*@PostMapping("/processsearch")
     public String searchResult(Model model,@RequestParam(name="search") String search) {
         model.addAttribute("flights", flightRepository.findByAirlineName(search));
         return "searchlist";
+    }*/
+
+    @PostMapping("/processsearch")
+    public String searchResult(Model model,@RequestParam(name="search")String search ,
+                                            @RequestParam(name="category") String category) {
+        if (category.equalsIgnoreCase("1")) {
+            model.addAttribute("flights", flightRepository.findByOriginFromContainingIgnoreCase(search));
+
+        }
+        else if (category.equalsIgnoreCase("2")) {
+            model.addAttribute("flights", flightRepository.findByDestinationToContainingIgnoreCase(search));
+
+        }
+        else if(category.equalsIgnoreCase("3")) {
+            model.addAttribute("flights", flightRepository.findByAirlineNameContainingIgnoreCase(search));
+
+        }
+    return "searchlist";
     }
     @PostMapping("/processflight")
     public String processForm(@ModelAttribute Flight flight, @RequestParam(name = "date")
