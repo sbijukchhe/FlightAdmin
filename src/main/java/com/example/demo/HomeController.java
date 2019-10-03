@@ -40,18 +40,16 @@ public class HomeController {
                                             @RequestParam(name="category") String category) {
         if (category.equals("1")) {
             model.addAttribute("flights", flightRepository.findByOriginFromContainingIgnoreCase(search));
-
         }
         else if (category.equals("2")) {
             model.addAttribute("flights", flightRepository.findByDestinationToContainingIgnoreCase(search));
-
         }
         else if(category.equals("3")) {
             model.addAttribute("flights", flightRepository.findByAirlineNameContainingIgnoreCase(search));
-
         }
     return "searchlist";
     }
+
     @PostMapping("/processflight")
     public String processForm(@ModelAttribute Flight flight, @RequestParam(name = "date")
             String date){
